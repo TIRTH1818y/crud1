@@ -57,7 +57,6 @@ class _crudopState extends State<crudop> {
               onpressed: () async {
                 String name = namecontroller.text;
                 String position = positioncontroller.text;
-                additems(name, position);
                 await myIteam.doc(docmentsnapshot.id).update({
                   'name': name,
                   'position': position,
@@ -167,11 +166,23 @@ class _crudopState extends State<crudop> {
           ),
         ],
       ),
+
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.indigo,
+        child:  IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.picture_as_pdf,color: Colors.greenAccent,size: 40,
+          ),
+        ),
+      ),
+
+
+
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            const DrawerHeader( decoration: BoxDecoration(
+             DrawerHeader( decoration: BoxDecoration(
               color: Colors.blue,
             ),child: Text("IT Material Point")),
             ListTile(
@@ -207,6 +218,7 @@ class _crudopState extends State<crudop> {
           ],
         ),
       ),
+////////////////////////////////////////////////////////////////////////////////
       body: StreamBuilder(
           stream: myIteam.snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {

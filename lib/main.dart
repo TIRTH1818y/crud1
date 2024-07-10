@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:crud1/OTP.dart';
+import 'package:crud1/bottembar%5D/pdf.dart';
 import 'package:crud1/crud/crud.dart';
+import 'package:crud1/otpUI.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -37,7 +39,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: crudop(),
+      home: pdfop(),
+      //home: crudop(),
+      // home:otpUI(verificationid: '',),
       // home: phoneotp()
     );
   }
@@ -64,6 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(
+
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(

@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:crud1/crud/crud.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -23,27 +24,21 @@ class _otpUIState extends State<otpUI> {
         title: Text("OTP Test"),
       ),
       body: Center(
+
         child: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  Colors.deepPurpleAccent,
-                  Colors.blue,
-                  Colors.green,
-                ],
-              )
-          ),
+color: Colors.indigo,
 
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
+                padding: const EdgeInsets.only(top: 30,left: 10,right: 10),
                 child: TextField(
+                    
                   controller: otpcontroller,
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white70,
                       hintText: "Enter OTP",
                       suffixIcon: Icon(Icons.phone_rounded),
                       border: OutlineInputBorder()),
@@ -59,7 +54,7 @@ class _otpUIState extends State<otpUI> {
                       FirebaseAuth.instance.signInWithCredential(Credential).then((value)
                       {
                         Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => MyHomePage(title: "My home page")));
+                            builder: (context) => crudop()));
                       });
                     } //ex use for any exception headlining
                     catch (ex){

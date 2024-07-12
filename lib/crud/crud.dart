@@ -219,7 +219,8 @@ class _crudopState extends State<crudop> {
         ),
       ),
 ////////////////////////////////////////////////////////////////////////////////
-      body: StreamBuilder(
+      body:
+      StreamBuilder(
           stream: myIteam.snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
             if (streamSnapshot.hasData) {

@@ -1,16 +1,14 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:easy_pdf_viewer/easy_pdf_viewer.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
-
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class pdfop extends StatefulWidget {
   const pdfop({super.key});
@@ -56,6 +54,15 @@ class _pdfopState extends State<pdfop> {
     }
   }
 
+  Future DownloadPDF(filename) async{
+    final refrece = FirebaseStorage.instance.ref("pdf").child(filename);
+     final dira =await getDownloadsDirectory();
+     final saveddir = "${dira!.path}/$filename";
+
+     final file = File(saveddir);
+     await refrece.writeToFile(file);
+  }
+
   void getpdfs() async {
     final results = await firebaseFirestore.collection("pdfs").get();
 
@@ -85,8 +92,8 @@ class _pdfopState extends State<pdfop> {
             itemBuilder: (context, index) {
               return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Material( borderRadius: BorderRadius.circular(20),
-
+                  child: Material(
+                    borderRadius: BorderRadius.circular(20),
                     color: Colors.white,
                     child: InkWell(
                         onTap: () {
@@ -96,15 +103,10 @@ class _pdfopState extends State<pdfop> {
                                     pdfurl: pdfdata[index]["url"])),
                           );
                         },
-
                         child: Padding(
-
                           padding: const EdgeInsets.all(8.0),
-
                           child: Padding(
-
                             padding: const EdgeInsets.all(8.0),
-
                             child: Column(
                               children: [
                                 ListTile(
@@ -113,13 +115,47 @@ class _pdfopState extends State<pdfop> {
                                     height: 50,
                                     width: 50,
                                   ),
-                                  trailing:  IconButton(
-                                    onPressed: () {
-                                      showDialog(context: context,
-                                          builder: (context)=>const downloadpdf() );
+                                  trailing: IconButton(
+                                    onPressed: () async {
+                                      //  Map<Permission, PermissionStatus>statuses = await [
+                                      //   Permission.storage,
+                                      //
+                                      // ].request();
+                                      //  await Permission.storage.request();
+                                      //
+                                      // if(await Permission.storage.isGranted){
+                                      //   var  dir = await DownloadsPathProvider.downloadsDirectory;
+                                      //   if(dir != null){
+                                      //    String savename = "name";
+                                      //    String savePath = dir.path + "/$savename";
+                                      //    print(savePath);
+                                      //    const String downurl = "url";
+                                      //    try{
+                                      //      await Dio().download(downurl, savePath, onReceiveProgress: (received,total){
+                                      //        if(total != -1){
+                                      //          print((received/total * 100).toStringAsFixed(0)+ "%");
+                                      //        }
+                                      //      });
+                                      //      print("file is saved to downlod folder");
+                                      //      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("file downloded")));
+                                      //    }catch(e){
+                                      //      print (e.toString());
+                                      //    }
+                                      //
+                                      //   }
+                                      // }else{
+                                      //   print("no permission to read and write");
+                                      //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("permission denied.... ! "),));
+                                      // }
+                                      // showDialog(
+                                      //     context: context,
+                                      //     builder: (context) =>
+                                      //         const downloadpdf());
+                                      DownloadPDF(pdfdata[index]["name"]);
                                     },
                                     icon: Icon(
-                                      Icons.download,color: Colors.green,
+                                      Icons.download,
+                                      color: Colors.green,
                                     ),
                                   ),
                                   title: Text(
@@ -153,11 +189,11 @@ class downloadpdf extends StatefulWidget {
 }
 
 class _downloadpdfState extends State<downloadpdf> {
-
-  Future<String>getpath(String filename)async{
-    final dir =await getApplicationDocumentsDirectory();
+  Future<String> getpath(String filename) async {
+    final dir = await getApplicationDocumentsDirectory();
     return "${dir.path}/$filename";
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -166,47 +202,50 @@ class _downloadpdfState extends State<downloadpdf> {
   }
 
   Dio dio = Dio();
-  double progress = 0.0 ;
+  double progress = 0.0;
 
-  void startdownload()async{
+  void startdownload() async {
+    const String downurl = "url";
 
-   const String downurl = "url";
+    const String filename = "name";
 
-  const String filename = "name";
-
-  String path = await getpath(filename);
-  await dio.download(downurl,path,onReceiveProgress: (recivdBytes,totalBytes){
-    setState(() {
-      progress = recivdBytes / totalBytes;
-    });
+    String path = await getpath(filename);
+    await Dio().download(
+      downurl,
+      path,
+      onReceiveProgress: (recivdBytes, totalBytes) {
+        setState(() {
+          progress = recivdBytes / totalBytes;
+        });
         print(progress);
-  },
-  deleteOnError: true,
-  ).then((_){
-    Navigator.pop(context);
-  });
-
+      },
+      deleteOnError: true,
+    ).then((_) {
+      Navigator.pop(context);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-        String downloadinprogress = (progress =100).toInt().toString();
+    String downloadinprogress = (progress = 100).toInt().toString();
     return AlertDialog(
       backgroundColor: Colors.blueGrey,
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           const CircularProgressIndicator.adaptive(),
-          const  SizedBox(height: 20,),
-          Text("Download : $downloadinprogress%",
-          style: TextStyle  (color: Colors.white,fontSize: 17),)
-
+          const SizedBox(
+            height: 20,
+          ),
+          Text(
+            "Download : $downloadinprogress%",
+            style: TextStyle(color: Colors.white, fontSize: 17),
+          )
         ],
       ),
     );
   }
 }
-
 
 class pdfviewerscreen extends StatefulWidget {
   final String pdfurl;
@@ -217,7 +256,6 @@ class pdfviewerscreen extends StatefulWidget {
 }
 
 class _pdfviewerscreenState extends State<pdfviewerscreen> {
-
   PDFDocument? document;
 
   void initialisepdf() async {

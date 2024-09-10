@@ -1,5 +1,8 @@
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crud1/bottembar%5D/pdf.dart';
+import 'package:crud1/login/service/authentication.dart';
+import 'package:crud1/login/theme/welcome.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -130,9 +133,10 @@ class _crudopState extends State<crudop> {
                 child: TextField(
                   onChanged: onSearchChange,
                   controller: searchIDcontroller,
+
                   decoration: const InputDecoration(
                       contentPadding: EdgeInsets.fromLTRB(16, 20, 16, 12),
-                      hintText: "Search user....",
+                      hintText: "Search user..",
                       border: InputBorder.none,
                       helperStyle: TextStyle(color: Colors.black)),
                 ))
@@ -170,8 +174,10 @@ class _crudopState extends State<crudop> {
       bottomNavigationBar: BottomAppBar(
         color: Colors.indigo,
         child:  IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.picture_as_pdf,color: Colors.greenAccent,size: 40,
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>pdfop(),),);
+          },
+          icon: const Icon(Icons.picture_as_pdf,color: Colors.greenAccent,size: 40,
           ),
         ),
       ),
@@ -215,6 +221,14 @@ class _crudopState extends State<crudop> {
                 Navigator.pop(context);
               },
             ),
+            ListTile(
+            ),
+      IconButton(
+        onPressed: () async{
+          await AuthServices().SignOut();
+         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>welcome(),),);
+          },
+        icon: const Icon(Icons.logout,color: Colors.red,size: 30,),),
           ],
         ),
       ),

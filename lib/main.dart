@@ -1,9 +1,8 @@
 import 'dart:io';
-
-import 'package:crud1/OTP.dart';
-import 'package:crud1/bottembar%5D/pdf.dart';
 import 'package:crud1/crud/crud.dart';
-import 'package:crud1/otpUI.dart';
+import 'package:crud1/login/theme/custom_widgets/splash_screen.dart';
+import 'package:crud1/login/theme/welcome.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -13,7 +12,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Platform.isAndroid
       ? await Firebase.initializeApp(
-          options: FirebaseOptions(
+          options: const FirebaseOptions(
               apiKey: "AIzaSyAgs3g4XCNAAYjKQ-ESIJLEd92xxs6XWaE",
               appId: "1:566489030887:android:a03f239ba643ce6dcf0242",
               messagingSenderId: "566489030887",
@@ -39,7 +38,16 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: pdfop(),
+      //home: pdfop(),
+     // home:MyLogin(),
+     //home : MyRegister(),
+      home:StreamBuilder(stream: FirebaseAuth.instance.authStateChanges(),builder:(context,snapshot){
+        if(snapshot.hasData){
+          return crudop();
+        }else{
+          return welcome();
+        }
+      },),
       //home: crudop(),
       // home:otpUI(verificationid: '',),
       // home: phoneotp()

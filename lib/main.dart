@@ -1,6 +1,6 @@
 import 'dart:io';
+import 'package:crud1/bottembar%5D/home.dart';
 import 'package:crud1/crud/crud.dart';
-import 'package:crud1/login/theme/custom_widgets/splash_screen.dart';
 import 'package:crud1/login/theme/welcome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -39,15 +39,16 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       //home: pdfop(),
-     // home:MyLogin(),
+     //home:MyLogin(),
      //home : MyRegister(),
-      home:StreamBuilder(stream: FirebaseAuth.instance.authStateChanges(),builder:(context,snapshot){
-        if(snapshot.hasData){
-          return crudop();
-        }else{
-          return welcome();
-        }
-      },),
+      home:const home(),
+      // home:StreamBuilder(stream: FirebaseAuth.instance.authStateChanges(),builder:(context,snapshot){
+      //   if(snapshot.hasData){
+      //     return const crudop();
+      //   }else{
+      //     return const welcome();
+      //   }
+      // },),
       //home: crudop(),
       // home:otpUI(verificationid: '',),
       // home: phoneotp()

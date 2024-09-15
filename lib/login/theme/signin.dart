@@ -1,3 +1,4 @@
+import 'package:crud1/bottembar%5D/home.dart';
 import 'package:crud1/login/theme/sign%20up.dart';
 import 'package:crud1/login/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -39,7 +40,7 @@ class _signinscreenState extends State<signinscreen> {
       });
       //for the navigate next page
       Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => crudop()));
+          .pushReplacement(MaterialPageRoute(builder: (context) => home()));
     } else {
       setState(() {
         isloding = false;
@@ -90,6 +91,7 @@ class _signinscreenState extends State<signinscreen> {
                           height: 40,
                         ),
                         TextFormField(
+                          controller: emailcontroller,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'please Enter Email';
@@ -118,6 +120,7 @@ class _signinscreenState extends State<signinscreen> {
                           height: 20,
                         ),
                         TextFormField(
+                          controller: passwordcontroller,
                           obscureText: true,
                           obscuringCharacter: '*',
                           validator: (value) {

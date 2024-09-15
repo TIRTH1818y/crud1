@@ -1,3 +1,4 @@
+import 'package:crud1/bottembar%5D/home.dart';
 import 'package:crud1/crud/crud.dart';
 import 'package:crud1/login/service/authentication.dart';
 import 'package:crud1/login/theme/custom_widgets/snack_bar.dart';
@@ -40,7 +41,7 @@ class _signupscreenState extends State<signupscreen> {
       });
       //for the navigate next page
       Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => crudop()));
+          .pushReplacement(MaterialPageRoute(builder: (context) => home()));
     } else {
       setState(() {
         isloding = false;

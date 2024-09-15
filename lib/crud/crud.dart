@@ -1,9 +1,7 @@
-import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crud1/bottembar%5D/pdf.dart';
 import 'package:crud1/login/service/authentication.dart';
 import 'package:crud1/login/theme/welcome.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class crudop extends StatefulWidget {
@@ -20,7 +18,7 @@ class _crudopState extends State<crudop> {
   final TextEditingController searchIDcontroller = TextEditingController();
 
   final CollectionReference myIteam =
-      FirebaseFirestore.instance.collection("users");
+      FirebaseFirestore.instance.collection("login_users");
 
   //for create a operation
   Future<void> create() async {
@@ -265,13 +263,13 @@ class _crudopState extends State<crudop> {
                             child: ListTile(
                               title: Text(
                                 "Name : " + documentSnapshot['name'],
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,color: Colors.yellowAccent
                                 ),
                               ),
                               subtitle: Text(
-                                "Position : " + documentSnapshot['position'],
+                                "email : " + documentSnapshot['email'],
                                 style: TextStyle(fontSize: 15,color: Colors.white),
                               ),
                               trailing: SizedBox(

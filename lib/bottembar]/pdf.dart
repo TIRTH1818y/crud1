@@ -1,14 +1,12 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
-import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:easy_pdf_viewer/easy_pdf_viewer.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class pdfop extends StatefulWidget {
   const pdfop({super.key});
@@ -54,13 +52,27 @@ class _pdfopState extends State<pdfop> {
     }
   }
 
-  Future DownloadPDF(filename) async{
-    final refrece = FirebaseStorage.instance.ref("pdf").child(filename);
-     final dira =await getDownloadsDirectory();
-     final saveddir = "${dira!.path}/$filename";
+  Future DownloadPDF(filename,url) async{
 
-     final file = File(saveddir);
-     await refrece.writeToFile(file);
+    try{
+      Directory downloadsDir = Directory('/storage/emulated/0/Download');
+
+      Directory imp = Directory("${downloadsDir.path}/IT Material Point");
+      if (!await imp.exists()) {
+        imp.create();
+      }
+      final saveddir = "${imp.path}/$filename";
+
+      print("download successfully");
+      print(".........................................................$url");
+      print(".,.,.,.,.,.,.,.,.,.,..,.,.,.,.,.,.,.,.,.,.,.,..,.,.,.,.,.,.$filename");
+
+      Dio().download(url, saveddir,);
+
+    }catch(e){
+      print(e.toString());
+    }
+
   }
 
   void getpdfs() async {
@@ -117,41 +129,8 @@ class _pdfopState extends State<pdfop> {
                                   ),
                                   trailing: IconButton(
                                     onPressed: () async {
-                                      //  Map<Permission, PermissionStatus>statuses = await [
-                                      //   Permission.storage,
-                                      //
-                                      // ].request();
-                                      //  await Permission.storage.request();
-                                      //
-                                      // if(await Permission.storage.isGranted){
-                                      //   var  dir = await DownloadsPathProvider.downloadsDirectory;
-                                      //   if(dir != null){
-                                      //    String savename = "name";
-                                      //    String savePath = dir.path + "/$savename";
-                                      //    print(savePath);
-                                      //    const String downurl = "url";
-                                      //    try{
-                                      //      await Dio().download(downurl, savePath, onReceiveProgress: (received,total){
-                                      //        if(total != -1){
-                                      //          print((received/total * 100).toStringAsFixed(0)+ "%");
-                                      //        }
-                                      //      });
-                                      //      print("file is saved to downlod folder");
-                                      //      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("file downloded")));
-                                      //    }catch(e){
-                                      //      print (e.toString());
-                                      //    }
-                                      //
-                                      //   }
-                                      // }else{
-                                      //   print("no permission to read and write");
-                                      //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("permission denied.... ! "),));
-                                      // }
-                                      // showDialog(
-                                      //     context: context,
-                                      //     builder: (context) =>
-                                      //         const downloadpdf());
-                                      DownloadPDF(pdfdata[index]["name"]);
+
+                                      DownloadPDF(pdfdata[index]["name"],pdfdata[index]["url"]);
                                     },
                                     icon: Icon(
                                       Icons.download,

@@ -93,11 +93,9 @@ class _pdfopState extends State<pdfop> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.indigo,
-        title: Text("PDFs"),
-      ),
-      body: Container(
+
+      body:
+      Container(
         color: Colors.teal.shade200,
         child: ListView.builder(
             itemCount: pdfdata.length,

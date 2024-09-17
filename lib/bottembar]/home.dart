@@ -5,7 +5,6 @@ import 'package:crud1/bottembar%5D/tech_page.dart';
 import 'package:crud1/login/theme/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-
 import '../login/service/authentication.dart';
 import 'home_page.dart';
 
@@ -22,9 +21,9 @@ class _homeState extends State<home> {
   int _selectedIndex = 0;
 
   final List<Widget> _widgetOptions = <Widget>[
-    const home_page(),
+     home_page(),
     const search_page(),
-    const tech_page(),
+    const pdfop( ),
     const profile_page(),
   ];
 
@@ -46,23 +45,22 @@ class _homeState extends State<home> {
             ),child: Text("IT Material Point")),
             ListTile(
               title: const Text('Download'),
-
               onTap: () {
                 // Update the state of the app
-                Navigator.push(context,MaterialPageRoute(builder: (context)=>const downloadpdf(),),);
+                Navigator.pop(context);
                 _onItemTapped(2);
                 // Then close the drawer
-                Navigator.pop(context);
+              //  Navigator.pop(context);
               },
             ),
             ListTile(
-              title: const Text('Business'),
+              title: Text('Business'),
               selected: _selectedIndex == 1,
               onTap: () {
                 // Update the state of the app
 
                 // Then close the drawer
-                Navigator.pop(context);
+                Navigator.pop(context,MaterialPageRoute(builder: (context)=>downloadpdf(),),);
               },
             ),
             ListTile(

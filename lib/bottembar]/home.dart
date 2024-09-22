@@ -23,7 +23,7 @@ class _homeState extends State<home> {
   final List<Widget> _widgetOptions = <Widget>[
      home_page(),
     const search_page(),
-    const pdfop( ),
+    const tech_page( ),
     const profile_page(),
   ];
 
@@ -148,7 +148,6 @@ class _homeState extends State<home> {
       ),
       body: Container(
 
-        color: Colors.teal,
         child: _widgetOptions[_selectedIndex],
       ),
     );

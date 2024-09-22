@@ -78,6 +78,7 @@ flutter:
     - assets/
     - assets/images/
     - assets/videos/
+    - assets/technology/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

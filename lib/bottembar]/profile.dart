@@ -24,6 +24,10 @@ class _profile_pageState extends State<profile_page> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.teal,
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("profile"),
+      ),
       body: StreamBuilder<DocumentSnapshot>(
         stream:myIteam.doc(uid).snapshots(),
 

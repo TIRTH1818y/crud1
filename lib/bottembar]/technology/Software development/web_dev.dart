@@ -24,7 +24,8 @@ class _web_devState extends State<web_dev> {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      body: Column(
+      body:
+      Column(
         children: [
           Container(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(50)),

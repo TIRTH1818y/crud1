@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:crud1/bottembar%5D/technology/Software%20development/Cloud_Computing.dart';
 import 'package:crud1/bottembar%5D/technology/Software%20development/Database_Management.dart';
 import 'package:crud1/bottembar%5D/technology/Software%20development/Game_Development.dart';
@@ -44,7 +46,7 @@ class _software_devState extends State<software_dev> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.teal.shade100,
+      backgroundColor: Colors.indigo.shade800,
       appBar: AppBar(
         backgroundColor: Colors.indigo,
         centerTitle: true,
@@ -62,32 +64,40 @@ class _software_devState extends State<software_dev> {
                 curve: Curves.easeInOut,
              //   width: !_show ? 10 : double.maxFinite,
                 decoration: BoxDecoration(
-                    color: Colors.indigoAccent.shade200, borderRadius: BorderRadius.circular(40)),
+                    color: Colors.indigoAccent.shade200,
+                    borderRadius: BorderRadius.circular(40)),
                 duration: Duration(milliseconds: 300),
                 child: Padding(
                   padding: const EdgeInsets.only(top: 10),
-                  child: ListTile(
-                                trailing: Icon(Icons.account_tree_outlined,color: Colors.greenAccent,),
-                    title: Text(
-                      "${texts[index]}",
-                      style: const TextStyle(color: Colors.yellow,fontSize: 20),
-                    ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(50)),
+                    child: BackdropFilter(
 
-                    onTap: () {
-                      Navigator.push(context,MaterialPageRoute(builder: (context)=>_soft_tech[index],),);
-                     // Navigator.push(context, MaterialPageRoute(builder: (e)=>const software_dev(),),);
-
-                    },
-                    leading: CircleAvatar(
-                      backgroundImage: AssetImage(image[index]),
-                      radius: 30,
-
+                      filter: ImageFilter.blur(sigmaX: 30,sigmaY: 30),
+                      child: ListTile(
+                                    trailing: Icon(Icons.account_tree_outlined,color: Colors.greenAccent,),
+                        title: Text(
+                          "${texts[index]}",
+                          style: const TextStyle(color: Colors.yellow,fontSize: 20),
+                        ),
+                      
+                        onTap: () {
+                          Navigator.push(context,MaterialPageRoute(builder: (context)=>_soft_tech[index],),);
+                         // Navigator.push(context, MaterialPageRoute(builder: (e)=>const software_dev(),),);
+                      
+                        },
+                        leading: CircleAvatar(
+                          backgroundImage: AssetImage(image[index]),
+                          radius: 30,
+                      
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
             );
-          },
+            },
         ),
       );
   }

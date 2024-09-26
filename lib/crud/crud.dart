@@ -48,7 +48,7 @@ class _crudopState extends State<crudop> {
 
   Future<void> update(DocumentSnapshot docmentsnapshot) async {
     namecontroller.text = docmentsnapshot['name'];
-    positioncontroller.text = docmentsnapshot['position'];
+    positioncontroller.text = docmentsnapshot['email'];
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -57,10 +57,10 @@ class _crudopState extends State<crudop> {
               condition: "update",
               onpressed: () async {
                 String name = namecontroller.text;
-                String position = positioncontroller.text;
+                String email = positioncontroller.text;
                 await myIteam.doc(docmentsnapshot.id).update({
                   'name': name,
-                  'position': position,
+                  'email': email ,
                 });
                 namecontroller.text = '';
                 positioncontroller.text = '';
@@ -232,78 +232,81 @@ class _crudopState extends State<crudop> {
       ),
 ////////////////////////////////////////////////////////////////////////////////
       body:
-      StreamBuilder(
-          stream: myIteam.snapshots(),
-          builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-            if (streamSnapshot.hasData) {
-              final List<DocumentSnapshot> items = streamSnapshot.data!.docs.where(
-                    (doc) => doc['name'].toLowerCase().contains(
-                          searchText.toLowerCase(),
-                        ),
-                  )
-                  .toList();
-              return ListView.builder(
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
-                    final DocumentSnapshot documentSnapshot =
-                       items[index];
+      ClipRRect(
 
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Material(
-                        elevation: 10,
-                        color: Colors.deepPurpleAccent.shade100,
-                        borderRadius: BorderRadius.circular(20),
-                        child: Padding(
+        child: StreamBuilder(
+            stream: myIteam.snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+              if (streamSnapshot.hasData) {
+                final List<DocumentSnapshot> items = streamSnapshot.data!.docs.where(
+                      (doc) => doc['name'].toLowerCase().contains(
+                            searchText.toLowerCase(),
+                          ),
+                    )
+                    .toList();
+                return ListView.builder(
+                    itemCount: items.length,
+                    itemBuilder: (context, index) {
+                      final DocumentSnapshot documentSnapshot =
+                         items[index];
 
-                          padding: const EdgeInsets.all(8.0),
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Material(
+                          elevation: 10,
+                          color: Colors.deepPurpleAccent.shade100,
+                          borderRadius: BorderRadius.circular(20),
                           child: Padding(
 
                             padding: const EdgeInsets.all(8.0),
-                            child: ListTile(
-                              title: Text(
-                                "Name : " + documentSnapshot['name'],
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,color: Colors.yellowAccent
+                            child: Padding(
+
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListTile(
+                                title: Text(
+                                  "Name : " + documentSnapshot['name'],
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,color: Colors.yellowAccent
+                                  ),
                                 ),
-                              ),
-                              subtitle: Text(
-                                "email : " + documentSnapshot['email'],
-                                style: TextStyle(fontSize: 15,color: Colors.white),
-                              ),
-                              trailing: SizedBox(
-                                width: 100,
-                                child: Row(
-                                  children: [
-                                    IconButton(
-                                      onPressed: () => update(documentSnapshot),
-                                      icon: Icon(
-                                        Icons.edit,color: Colors.greenAccent,
-                                      ),
-                                    ),
-                                    IconButton(
-                                      onPressed: () =>
-                                          delete(documentSnapshot.id),
-                                      icon: Icon(
-                                        Icons.delete,
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                  ],
+                                subtitle: Text(
+                                  "email : " + documentSnapshot['email'],
+                                  style: TextStyle(fontSize: 15,color: Colors.white),
                                 ),
-                              ), //edittind button
+                                trailing: SizedBox(
+                                  width: 100,
+                                  child: Row(
+                                    children: [
+                                      IconButton(
+                                        onPressed: () => update(documentSnapshot),
+                                        icon: Icon(
+                                          Icons.edit,color: Colors.greenAccent,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () =>
+                                            delete(documentSnapshot.id),
+                                        icon: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ), //edittind button
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    );
-                  });
-            }
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }),
+                      );
+                    });
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: create,
         backgroundColor: Colors.indigo,

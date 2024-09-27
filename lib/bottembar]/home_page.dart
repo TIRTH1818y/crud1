@@ -133,25 +133,70 @@ class _ImageSliderState extends State<home_page> {
 
                 itemCount: imagesurl!.length,
                 itemBuilder: (context, index, realIndex) {
-                  return Row(
-                    children: [
-                      CachedNetworkImage(
-                        width: 300,
-                        imageUrl: imagesurl![index],
-                        fit: BoxFit.cover,
-                        placeholder: (context, url) =>
-                            Center(child: CircularProgressIndicator()),
-                        errorWidget: (context, url, error) =>
-                            Icon(Icons.error),
-                      ), AnimatedContainer(
-                          duration: Duration(milliseconds: 300),
-                       //   margin: EdgeInsets.all(4.0),
-                          width: _currentIndex == index ? 20 : 10,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                          )),
-                    ],
+                  return Container(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CarouselSlider(
+
+                        options: CarouselOptions(
+                          autoPlay: true,
+                          enlargeCenterPage: true,
+
+                          enableInfiniteScroll: true,
+                          aspectRatio: 16 / 8,
+                          viewportFraction: .80,
+
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              _currentIndex = index;
+                            });
+                          },
+                        ),
+                        items: imagesurl?.map((imagePath) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return CachedNetworkImage(
+                                imageUrl: imagePath,
+                                fit: BoxFit.fitWidth,
+                                imageBuilder: (context, imageProvider) => Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.black12,
+                                    borderRadius: BorderRadius.circular(
+                                      8,
+                                    ),
+                                    image: DecorationImage(
+                                      image: imageProvider,
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        }).toList(),
+                      ),
+                    ),
                   );
+                  //   Row(
+                  //   children: [
+                  //     CachedNetworkImage(
+                  //       width: 300,
+                  //       imageUrl: imagesurl![index],
+                  //       fit: BoxFit.cover,
+                  //       placeholder: (context, url) =>
+                  //           Center(child: CircularProgressIndicator()),
+                  //       errorWidget: (context, url, error) =>
+                  //           Icon(Icons.error),
+                  //     ), AnimatedContainer(
+                  //         duration: Duration(milliseconds: 300),
+                  //      //   margin: EdgeInsets.all(4.0),
+                  //         width: _currentIndex == index ? 20 : 10,
+                  //         decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(5),
+                  //         )),
+                  //   ],
+                  // );
                   //return ImageDetailPage(imageUrl: imagesurl![index],);
                 },
                 options: CarouselOptions(height: 200, autoPlay: true),
